@@ -3,6 +3,19 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+"""
+TODO: Add AT1 bond data
+TODO: Add shares outstanding data
+TODO: Add market cap data
+TODO: Add CET1 ratio data
+
+TODO: Find risk free rates (Yield curve?)
+TODO: Derive the following from the data:
+- Volatility
+- 
+
+
+"""
 
 def load_reuters_data(ticker, data_folder = "data/reuterseikonexports") -> pd.DataFrame: 
     """
