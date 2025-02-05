@@ -8,11 +8,16 @@ TODO: Add AT1 bond data
 TODO: Add shares outstanding data
 TODO: Add market cap data
 TODO: Add CET1 ratio data
+TODO: Add number of shares outstanding data
 
 TODO: Find risk free rates (Yield curve?)
 TODO: Derive the following from the data:
 - Volatility
 - 
+
+Ratios:
+Total debt / Total equity
+Total debt / Total capital (Tier 1 plus Tier 2 capital)
 
 
 """
