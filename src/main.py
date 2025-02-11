@@ -37,6 +37,7 @@ def load_reuters_data(ticker, data_folder = "data/reuterseikonexports") -> pd.Da
         raise Exception("Could not find the start row")
 
     # Read in the data from the Excel file
+    # TODO: Add number of shares outstanding data
     dataset = pd.read_excel(
         io = f'{data_folder}/{ticker}.xlsx', 
         skiprows = get_start_row(ticker, data_folder), 
@@ -51,6 +52,34 @@ def load_reuters_data(ticker, data_folder = "data/reuterseikonexports") -> pd.Da
     return dataset
 
 
+def add_book_values(stock_data: pd.DataFrame, ticker: str) -> None:
+    """
+    Add book value of debt to the stock data. 
+    """
+
+    # Load the book value data
+    # book_value_data = pd.read_excel(f'data/book_values/{ticker}.xlsx', index_col=0, parse_dates=True)
+    book_value_data = pd.read_excel(f'data/book_values/CSGN.xlsx', index_col=0, parse_dates=True)
+
+    # Merge the book value data with the stock data
+    stock_data = stock_data.merge(book_value_data, left_index=True, right_index=True, how='left')
+
+    # Fill missing values
+    stock_data['Book value of debt'] = stock_data['Book value of debt'].ffill()
+    stock_data['Book value of debt'] = stock_data['Book value of debt'].bfill()
+
+    return stock_data
+
+
+def calculate_alpha(stock_data: pd.DataFrame) -> None:
+    """
+    Calculate the ratio of CoCos to total debt. 
+    """
+
+    stock_data['Alpha'] = stock_data['CoCo'] / (stock_data['CoCo'] + stock_data['Book value of debt'])
+
+
+
 def main():
     if not os.path.exists("../DCL_coco_bond"):
         raise Exception("You must run this script from the root directory of the project")
@@ -62,13 +91,21 @@ def main():
 
     stock_data = load_reuters_data(ticker)
 
-    # plot the closing price
-    plt.figure(figsize=(10, 7))
-    plt.plot(stock_data['Close'], label='Close Price history')
-    plt.title(f'Close Price History ({ticker})')
-    plt.xlabel('Date')
-    plt.ylabel('Close Price')
+    stock_data = add_book_values(stock_data, ticker)
+
+
+
+    print(stock_data.head())
+
+    # plot the closing price and the book value of debt on separate axes
+    fig, ax1 = plt.subplots()
+    ax2 = ax1.twinx()
+    ax1.plot(stock_data.index, stock_data['Close'], 'g-')
+    ax2.plot(stock_data.index, stock_data['Book value of debt'], 'b-')
     plt.show()
+
+
+    
 
 
 if __name__ == "__main__":
