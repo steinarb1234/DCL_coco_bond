@@ -84,7 +84,7 @@ def plot_coco_results(df, ticker="BAC", leverage_trigger=25.0):
 def main():
     # 1. Fetch historical data for a specific bank
     ticker = "BAC"  # Bank of America, as an example
-    df_price = fetch_stock_data(ticker, start="2007-01-01", end="2009-12-31")
+    df_price = fetch_stock_data(ticker, start="2006-01-01", end="2010-12-31")
 
     # 2. Simulate CoCo bond behavior on this historical path
     #    (i.e., did it trigger on any days given a hypothetical threshold?)
