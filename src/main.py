@@ -5,22 +5,29 @@ import numpy as np
 
 """
 TODO: Add AT1 bond data
-TODO: Add shares outstanding data
-TODO: Add market cap data
 TODO: Add CET1 ratio data
-TODO: Add number of shares outstanding data
+TODO: Add shares outstanding data (NS_{k-1})
+TODO: Calculate market caps
 
 TODO: Find risk free rates (Yield curve?)
 TODO: Derive the following from the data:
-- Volatility
-- 
-
-Ratios:
-Total debt / Total equity
-Total debt / Total capital (Tier 1 plus Tier 2 capital)
-
-
+    RQ_k = Q * ((1 + r)^k + (1 - (1 + r)^k)/(1 - (1 + r)^{-N_m})) # Note that this only applies if the triggers are not breached
+    Leverage ratio = Total debt / (Total equity + Total debt) = RQ_k / (RQ_k + NS_{k-1} * S_k)
+    alpha = RQ_k / (RQ_k + Book value of non CoCo debt)
 """
+
+# ================================================================
+#                           Constants
+# ================================================================
+ticker = "CSGN.S"   # Credit Suisse
+# ticker = "DBKGn.DE" # Deutsche Bank
+# ticker = "LEHMQ.PK" # Lehman Brothers
+# ticker = "SVBQ.PK"  # Silicon Valley Bank
+
+T = 10       # Number of years to maturity for DCL bonds
+L_min = 0.05 # Minimum leverage ratio
+L_c = 0.1    # Critical leverage ratio
+
 
 def load_reuters_data(ticker, data_folder = "data/reuterseikonexports") -> pd.DataFrame: 
     """
@@ -52,7 +59,7 @@ def load_reuters_data(ticker, data_folder = "data/reuterseikonexports") -> pd.Da
     return dataset
 
 
-def add_book_values(stock_data: pd.DataFrame, ticker: str) -> None:
+def load_book_values(stock_data: pd.DataFrame, ticker: str) -> None:
     """
     Add book value of debt to the stock data. 
     """
@@ -84,28 +91,17 @@ def main():
     if not os.path.exists("../DCL_coco_bond"):
         raise Exception("You must run this script from the root directory of the project")
     
-    ticker = "CSGN.S" # Credit Suisse
-    # ticker = "DBKGn.DE" # Deutsche Bank
-    # ticker = "LEHMQ.PK" # Lehman Brothers
-    # ticker = "SVBQ.PK" # Silicon Valley Bank
-
     stock_data = load_reuters_data(ticker)
+    stock_data = load_book_values(stock_data, ticker)
+    # print(stock_data.head())
 
-    stock_data = add_book_values(stock_data, ticker)
-
-
-
-    print(stock_data.head())
-
-    # plot the closing price and the book value of debt on separate axes
-    fig, ax1 = plt.subplots()
-    ax2 = ax1.twinx()
-    ax1.plot(stock_data.index, stock_data['Close'], 'g-')
-    ax2.plot(stock_data.index, stock_data['Book value of debt'], 'b-')
+    # plot the closing price, the book value of debt in subplots
+    fig, ax = plt.subplots(2, 1, sharex=True)
+    ax[0].plot(stock_data.index, stock_data['Close'], label='Close')
+    ax[0].set_title('Stock price')
+    ax[1].plot(stock_data.index, stock_data['Book value of debt'], label='Book value of debt')
+    ax[1].set_title('Book value of debt')
     plt.show()
-
-
-    
 
 
 if __name__ == "__main__":
