@@ -17,17 +17,23 @@ TODO: Derive the following from the data:
 """
 
 # ================================================================
-#                           Constants
+#                           Parameters
 # ================================================================
+
 ticker = "CSGN.S"   # Credit Suisse
 # ticker = "DBKGn.DE" # Deutsche Bank
 # ticker = "LEHMQ.PK" # Lehman Brothers
 # ticker = "SVBQ.PK"  # Silicon Valley Bank
 
 T = 10       # Number of years to maturity for DCL bonds
+Q_init = 100_000_000_000  # Initial face value of DCL bonds
+r = 0.05     # Risk free rate
 L_min = 0.20 # Minimum leverage ratio
 L_c = 0.8    # Critical leverage ratio
 
+# ================================================================
+#                           Functions
+# ================================================================
 
 def load_reuters_data(ticker, data_folder = "data/reuterseikonexports") -> pd.DataFrame: 
     """
@@ -59,7 +65,7 @@ def load_reuters_data(ticker, data_folder = "data/reuterseikonexports") -> pd.Da
     return dataset
 
 
-def load_book_values(stock_data: pd.DataFrame, ticker: str) -> None:
+def add_book_values(stock_data: pd.DataFrame, ticker: str) -> None:
     """
     Add book value of debt to the stock data. 
     """
@@ -86,14 +92,31 @@ def calculate_alpha(stock_data: pd.DataFrame) -> None:
     stock_data['Alpha'] = stock_data['CoCo'] / (stock_data['CoCo'] + stock_data['Book value of debt'])
 
 
+def calculate_residual_value_of_dcls(Q, r, N_m, k):
+    """
+    Calculate the residual value of all DCL bonds at time k. 
+    """
 
-def main():
-    if not os.path.exists("../DCL_coco_bond"):
-        raise Exception("You must run this script from the root directory of the project")
+    return Q * ((1 + r)**k + (1 - (1 + r)**k)/(1 - (1 + r)**(-N_m)))
+
+def calculate_alpha(RQ_k, book_value_of_non_coco_debt):
+    """
+    Calculate the ratio of CoCos to total debt. 
+    """
     
-    stock_data = load_reuters_data(ticker)
-    stock_data = load_book_values(stock_data, ticker)
-    # print(stock_data.head())
+    return RQ_k / (RQ_k + book_value_of_non_coco_debt)
+
+def calculate_leverage_ratio(RQ_k, NS_k_1, S_k):
+    """
+    Calculate the leverage ratio. 
+    """
+
+    return RQ_k / (RQ_k + NS_k_1 * S_k)
+
+def plot_stock_data(stock_data: pd.DataFrame) -> None:
+    """
+    Plot the stock data. 
+    """
 
     # plot the closing price, the book value of debt in subplots
     fig, ax = plt.subplots(2, 1, sharex=True)
@@ -102,6 +125,29 @@ def main():
     ax[1].plot(stock_data.index, stock_data['Book value of debt'], label='Book value of debt')
     ax[1].set_title('Book value of debt')
     plt.show()
+
+
+
+def main():
+    if not os.path.exists("../DCL_coco_bond"):
+        raise Exception("You must run this script from the root directory of the project")
+    
+    stock_data = load_reuters_data(ticker)
+    stock_data = add_book_values(stock_data, ticker)
+    # Add Q and N_m to the stock data
+    stock_data['Q'] = Q_init
+    stock_data['N_m'] = T
+    stock_data['NS_k_1'] = 3_039_000_000
+    stock_data['k'] = stock_data.index.year - stock_data.index.year[0]
+    stock_data['RQ_k'] = stock_data.apply(lambda row: calculate_residual_value_of_dcls(row['Q'], r, row['N_m'], row['k']), axis=1)
+    stock_data['Alpha'] = stock_data.apply(lambda row: calculate_alpha(row['RQ_k'], row['Book value of debt']), axis=1)
+    stock_data['Leverage ratio'] = stock_data.apply(lambda row: calculate_leverage_ratio(row['RQ_k'], row['NS_k_1'], row['Close']), axis=1)
+
+
+    print(stock_data.head())
+
+
+    # plot_stock_data(stock_data)
 
 
 if __name__ == "__main__":
