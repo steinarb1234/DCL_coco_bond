@@ -25,8 +25,8 @@ ticker = "CSGN.S"   # Credit Suisse
 # ticker = "SVBQ.PK"  # Silicon Valley Bank
 
 T = 10       # Number of years to maturity for DCL bonds
-L_min = 0.05 # Minimum leverage ratio
-L_c = 0.1    # Critical leverage ratio
+L_min = 0.20 # Minimum leverage ratio
+L_c = 0.8    # Critical leverage ratio
 
 
 def load_reuters_data(ticker, data_folder = "data/reuterseikonexports") -> pd.DataFrame: 
