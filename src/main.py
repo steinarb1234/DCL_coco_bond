@@ -26,7 +26,6 @@ ticker = "CSGN.S"   # Credit Suisse
 # ticker = "SVBQ.PK"  # Silicon Valley Bank
 
 T = 10       # Number of years to maturity for DCL bonds
-Q_init = 100_000_000_000  # Initial face value of DCL bonds
 r = 0.05     # Risk free rate
 L_min = 0.20 # Minimum leverage ratio
 L_c = 0.8    # Critical leverage ratio
@@ -135,6 +134,8 @@ def main():
     stock_data = load_reuters_data(ticker)
     stock_data = add_book_values(stock_data, ticker)
     # Add Q and N_m to the stock data
+    
+    Q_init = 100_000_000_000  # Initial face value of DCL bonds
     stock_data['Q'] = Q_init # TODO: this will be a time series
     stock_data['N_m'] = T
     stock_data['NS_k_1'] = 3_039_000_000
