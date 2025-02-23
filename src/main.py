@@ -135,7 +135,7 @@ def main():
     stock_data = load_reuters_data(ticker)
     stock_data = add_book_values(stock_data, ticker)
     # Add Q and N_m to the stock data
-    stock_data['Q'] = Q_init
+    stock_data['Q'] = Q_init # TODO: this will be a time series
     stock_data['N_m'] = T
     stock_data['NS_k_1'] = 3_039_000_000
     stock_data['k'] = stock_data.index.year - stock_data.index.year[0]
