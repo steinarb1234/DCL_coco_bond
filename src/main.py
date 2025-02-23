@@ -28,8 +28,8 @@ ticker = "CSGN.S"   # Credit Suisse
 T = 10       # Number of years to maturity for DCL bonds
 Q_init = 100_000_000_000  # Initial face value of DCL bonds
 r = 0.05     # Risk free rate
-L_min = 0.05 # Minimum leverage ratio
-L_c = 0.1    # Critical leverage ratio
+L_min = 0.20 # Minimum leverage ratio
+L_c = 0.8    # Critical leverage ratio
 
 # ================================================================
 #                           Functions
