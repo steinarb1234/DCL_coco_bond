@@ -34,7 +34,7 @@ L_c = 0.8    # Critical leverage ratio
 #                           Functions
 # ================================================================
 
-def load_reuters_data(ticker, data_folder = "data/reuterseikonexports") -> pd.DataFrame: 
+def load_reuters_data(ticker, data_folder = "data/market_data") -> pd.DataFrame: 
     """
     Stock price data exported from Reuters Eikon. The sheet has multiple different tables, 
     so we need to find the start row of the table with the stock price data.
