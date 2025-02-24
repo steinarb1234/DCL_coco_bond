@@ -26,7 +26,6 @@ ticker = "CSGN.S"   # Credit Suisse
 # ticker = "SVBQ.PK"  # Silicon Valley Bank
 
 T = 10       # Number of years to maturity for DCL bonds
-Q_init = 100_000_000_000  # Initial face value of DCL bonds
 r = 0.05     # Risk free rate
 L_min = 0.20 # Minimum leverage ratio
 L_c = 0.8    # Critical leverage ratio
@@ -99,6 +98,7 @@ def calculate_residual_value_of_dcls(Q, r, N_m, k):
 
     return Q * ((1 + r)**k + (1 - (1 + r)**k)/(1 - (1 + r)**(-N_m)))
 
+
 def calculate_alpha(RQ_k, book_value_of_non_coco_debt):
     """
     Calculate the ratio of CoCos to total debt. 
@@ -134,6 +134,18 @@ def main():
     
     stock_data = load_reuters_data(ticker)
     stock_data = add_book_values(stock_data, ticker)
+
+
+    start_date = stock_data.index[0]
+    end_date = stock_data.index[-1]
+    start_date_index = stock_data.index.get_loc(start_date)
+    end_date_index = stock_data.index.get_loc(end_date)
+
+    initial_coco_bond_proportion = 0.2
+    Q_init = stock_data['Book value of debt'][start_date_index] * initial_coco_bond_proportion # Initial value of CoCo bonds
+
+
+
     # Add Q and N_m to the stock data
     stock_data['Q'] = Q_init
     stock_data['N_m'] = T
