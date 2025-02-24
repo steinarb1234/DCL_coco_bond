@@ -34,7 +34,7 @@ L_c = 0.8    # Critical leverage ratio
 #                           Functions
 # ================================================================
 
-def load_reuters_data(ticker, data_folder = "data/reuterseikonexports") -> pd.DataFrame: 
+def load_reuters_data(ticker, data_folder = "data/market_data") -> pd.DataFrame: 
     """
     Stock price data exported from Reuters Eikon. The sheet has multiple different tables, 
     so we need to find the start row of the table with the stock price data.
@@ -147,7 +147,9 @@ def main():
 
 
     # Add Q and N_m to the stock data
-    stock_data['Q'] = Q_init
+    
+    Q_init = 100_000_000_000  # Initial face value of DCL bonds
+    stock_data['Q'] = Q_init # TODO: this will be a time series
     stock_data['N_m'] = T
     stock_data['NS_k_1'] = 3_039_000_000
     stock_data['k'] = stock_data.index.year - stock_data.index.year[0]
