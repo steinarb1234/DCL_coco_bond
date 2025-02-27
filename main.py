@@ -49,7 +49,7 @@ ticker_ric = ric_search["RIC"][0]
 # ticker_ric = "CSGN.S^F23"
 
 start_date = '2018-01-01'
-end_date = '2024-01-01'
+end_date = '2025-01-01'
 
 
 print("======================= TR Field =========================")
@@ -64,16 +64,16 @@ print("==========================================================\n")
 
 
 print("====================== Metrics ===========================")
-cs_metrics = ek.get_data([ticker_ric], 
+cs_metrics, err = ek.get_data([ticker_ric], 
                          ['TR.TotalAssets'])
-print(cs_metrics[1])
-print(cs_metrics[0])
-cs_metrics[0].to_excel(f"{DATA_DOLDER}/cs_metrics.xlsx")
+print(err)
+print(cs_metrics)
+cs_metrics.to_excel(f"{DATA_DOLDER}/cs_metrics.xlsx")
 print("==========================================================\n")
 
 print("====================== Balance Sheet =====================")
 
-cs_balance_sheet = ek.get_data(ticker_ric, 
+cs_balance_sheet, err = ek.get_data(ticker_ric, 
                                [
                                    'TR.TotalAssets.date',
                                     'TR.TotalAssets',
@@ -83,34 +83,49 @@ cs_balance_sheet = ek.get_data(ticker_ric,
                                 ], 
                                parameters={'SDate': start_date, 'EDate': end_date}
                                )
-print(cs_balance_sheet[1])
-print(cs_balance_sheet[0])
-cs_balance_sheet[0].to_excel(f"{DATA_DOLDER}/cs_balance_sheet.xlsx")
+print(err)
+print(cs_balance_sheet)
+cs_balance_sheet.to_excel(f"{DATA_DOLDER}/cs_balance_sheet.xlsx")
 print("==========================================================\n")
 
 
 print("====================== Credit Spread =====================")
-cds_spread = ek.get_data('CSGN5YEUAM=R', ['TR.MidSpread'], 
+cds_spread, err = ek.get_data('CSGN5YEUAM=R', ['TR.MidSpread'], 
                                parameters={'SDate': start_date, 'EDate': end_date})
-print(cds_spread[1])
-print(cds_spread[0])
-cds_spread[0].to_excel(f"{DATA_DOLDER}/cds_spread.xlsx")
+print(err)
+print(cds_spread)
+cds_spread.to_excel(f"{DATA_DOLDER}/cds_spread.xlsx")
 print("==========================================================\n")
 
 print("=================== DCL Data =============================")
-cs_dcl_data = ek.get_data(ticker_ric, 
+cs_dcl_data, err = ek.get_data(ticker_ric, 
                         [
-                            'TR.MARKETCAPITALIZATION', 
-                            'TR.TotalDebt', 
+                            # 'TR.NumberofSharesOutstandingActual.date',
+                            # 'TR.NumberofSharesOutstandingActual',
+                            'TR.CompanyMarketCap.Date',
+                            'TR.CompanyMarketCap',
+                            'TR.CompanyMarketCap.Currency',
+                            'TR.F.ComShrOutsTot',
+                            'TR.TtlCmnSharesOut',
+                            'TR.F.ShrUsedToCalcBasicEPSIssue',
+                            'TR.F.ShrUsedToCalcDilEPSTot',
+                            'TR.F.ComShrOutstTotPoPAvg',
+
+                            # 'TR.CurrTtlLatestSharesOut.date'
+                            # 'TR.CurrTtlLatestSharesOut'
+                            # 'TR.MARKETCAPITALIZATION', 
+                            # 'TR.TotalDebt', 
                             # 'TR.ShareholdersEquity', 
                             # 'TR.Volatility30D',
                             # 'TR.PCTotDebtToToEquPct'
                         ], 
-                        parameters={'SDate': start_date, 'EDate': end_date}
+                        parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
                         )
-print(cs_dcl_data[1])
-print(cs_dcl_data[0])
-cs_dcl_data[0].to_excel(f"{DATA_DOLDER}/cs_dcl_data.xlsx")
+print(err)
+print(cs_dcl_data)
+# cs_dcl_data.plot(title="DataFrame Plot")
+# plt.show()
+cs_dcl_data.to_excel(f"{DATA_DOLDER}/cs_dcl_data.xlsx")
 print("==========================================================\n")
 
 
