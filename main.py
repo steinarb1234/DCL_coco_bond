@@ -60,42 +60,46 @@ print("======================= TR Field =========================")
 
 print("==========================================================\n")
 
-
-
-
-print("====================== Metrics ===========================")
-cs_metrics, err = ek.get_data([ticker_ric], 
-                         ['TR.TotalAssets'])
-print(err)
-print(cs_metrics)
-cs_metrics.to_excel(f"{DATA_DOLDER}/cs_metrics.xlsx")
-print("==========================================================\n")
-
 print("====================== Balance Sheet =====================")
 
-cs_balance_sheet, err = ek.get_data(ticker_ric, 
+# Total assets
+
+cs_total_assets, err = ek.get_data(ticker_ric, 
                                [
-                                   'TR.TotalAssets.date',
+                                    'TR.TotalAssets.date',
                                     'TR.TotalAssets',
-                                    'TR.TotalLiabilities',
-                                    'TR.TotalEquity', 
-                                    'TR.ShareholdersEquityActual' # The companys actual value normailzed to reflect the I/B/E/S default currency and stock plits. 
                                 ], 
                                parameters={'SDate': start_date, 'EDate': end_date}
                                )
 print(err)
-print(cs_balance_sheet)
-cs_balance_sheet.to_excel(f"{DATA_DOLDER}/cs_balance_sheet.xlsx")
+print(cs_total_assets)
+cs_total_assets.to_excel(f"{DATA_DOLDER}/cs_total_assets.xlsx")
+
+# cs_balance_sheet, err = ek.get_data(ticker_ric, 
+#                                [
+#                                    'TR.TotalAssets.date',
+#                                     'TR.TotalAssets',
+#                                     'TR.TotalLiabilities',
+#                                     'TR.TotalEquity', 
+#                                     'TR.ShareholdersEquityActual' # The companys actual value normailzed to reflect the I/B/E/S default currency and stock plits. 
+#                                 ], 
+#                                parameters={'SDate': start_date, 'EDate': end_date}
+#                                )
+# print(err)
+# print(cs_balance_sheet)
+# cs_balance_sheet.to_excel(f"{DATA_DOLDER}/cs_balance_sheet.xlsx")
+
+
 print("==========================================================\n")
 
 
-print("====================== Credit Spread =====================")
-cds_spread, err = ek.get_data('CSGN5YEUAM=R', ['TR.MidSpread'], 
-                               parameters={'SDate': start_date, 'EDate': end_date})
-print(err)
-print(cds_spread)
-cds_spread.to_excel(f"{DATA_DOLDER}/cds_spread.xlsx")
-print("==========================================================\n")
+# print("====================== Credit Spread =====================")
+# cds_spread, err = ek.get_data('CSGN5YEUAM=R', ['TR.MidSpread'], 
+#                                parameters={'SDate': start_date, 'EDate': end_date})
+# print(err)
+# print(cds_spread)
+# cds_spread.to_excel(f"{DATA_DOLDER}/cds_spread.xlsx")
+# print("==========================================================\n")
 
 print("=================== DCL Data =============================")
 cs_dcl_data, err = ek.get_data(ticker_ric, 
@@ -166,7 +170,23 @@ print("==========================================================\n")
 
 
 
+def get_data(ticker_ric, tr_reuters_name, save_name):
+    data, err = ek.get_data(ticker_ric, 
+                            [
+                                f'{tr_reuters_name}.Date',
+                                f'{tr_reuters_name}',
+                                # f'{tr_reuters_name}.Currency',
+                            ], 
+                            parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
+                            )
+    data = data.set_index("Date").drop(columns=["Instrument"])
 
+    print(err)
+    print(data)
+    data.plot(title="DataFrame Plot")
+    plt.show()
+    data.to_excel(f"{DATA_DOLDER}/{save_name}.xlsx")
+    
 
 
 
