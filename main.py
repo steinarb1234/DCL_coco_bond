@@ -129,6 +129,47 @@ cs_dcl_data.to_excel(f"{DATA_DOLDER}/cs_dcl_data.xlsx")
 print("==========================================================\n")
 
 
+print("=================== Shares outstanding =============================")
+cs_shares_outstanding, err = ek.get_data(ticker_ric, 
+                        [
+                            # 'TR.NumberofSharesOutstandingActual.date',
+                            # 'TR.NumberofSharesOutstandingActual',
+                            'TR.F.ComShrOutsTot.date',
+                            'TR.F.ComShrOutsTot',
+                            # 'TR.TtlCmnSharesOut',
+                        ], 
+                        parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
+                        )
+print(err)
+print(cs_shares_outstanding)
+# cs_shares_outstanding.plot(title="DataFrame Plot")
+# plt.show()
+cs_shares_outstanding.to_excel(f"{DATA_DOLDER}/cs_shares_outstanding.xlsx")
+print("==========================================================\n")
+
+print("=================== Market cap =============================")
+cs_market_cap, err = ek.get_data(ticker_ric, 
+                        [
+                            'TR.CompanyMarketCap.Date',
+                            'TR.CompanyMarketCap',
+                            'TR.CompanyMarketCap.Currency',
+                        ], 
+                        parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
+                        )
+print(err)
+print(cs_market_cap)
+# cs_market_cap.plot(title="DataFrame Plot")
+# plt.show()
+cs_market_cap.to_excel(f"{DATA_DOLDER}/cs_market_cap.xlsx")
+print("==========================================================\n")
+
+
+
+
+
+
+
+
 print("=================== Timeseries ===========================")
 cs_timeseries = ek.get_timeseries(ticker_ric, 
                             start_date=start_date, 
