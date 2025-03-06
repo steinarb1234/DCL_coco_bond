@@ -28,9 +28,11 @@ cs_shares_outstanding, err = ek.get_data(ticker_ric,
                         [
                             # 'TR.NumberofSharesOutstandingActual.date',
                             # 'TR.NumberofSharesOutstandingActual',
-                            'TR.F.ComShrOutsTot.date',
-                            'TR.F.ComShrOutsTot',
+                            # 'TR.F.ComShrOutsTot.date',
+                            # 'TR.F.ComShrOutsTot',
                             # 'TR.TtlCmnSharesOut',
+                            'TR.IssueSharesOutstanding.date',
+                            'TR.IssueSharesOutstanding',
                         ], 
                         parameters={'SDate': start_date, 'EDate': end_date},
                         )
