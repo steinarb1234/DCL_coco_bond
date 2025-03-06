@@ -29,11 +29,14 @@ cs_long_term_debt_div_total_capital, err = ek.get_data(ticker_ric,
                             'TR.F.LTDebtPctofTotCap.date',
                             'TR.F.LTDebtPctofTotCap',
                         ], 
-                        parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'},
+                        parameters={'SDate': start_date, 'EDate': end_date},
                         )
 cs_long_term_debt_div_total_capital = cs_long_term_debt_div_total_capital.set_index("Date").drop(columns=["Instrument"])
+cs_long_term_debt_div_total_capital.index = pd.to_datetime(cs_long_term_debt_div_total_capital.index).tz_localize(None)
+
 print(err)
 print(cs_long_term_debt_div_total_capital)
+
 cs_long_term_debt_div_total_capital.plot(title="DataFrame Plot")
 plt.show()
 cs_long_term_debt_div_total_capital.to_excel(f"{DATA_DOLDER}/cs_long_term_debt_div_total_capital.xlsx")

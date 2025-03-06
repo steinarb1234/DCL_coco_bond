@@ -25,21 +25,22 @@ start_date = '2018-01-01'
 end_date = '2025-01-01'
 
 
-cs_total_debt, err = ek.get_data(ticker_ric, 
+cs_total_debt_actual, err = ek.get_data(ticker_ric, 
                                [
-                                    'TR.TotalDebtOutstanding.date',
-                                    'TR.TotalDebtOutstanding',
+                                    'TR.TotalDebtActValue.date',
+                                    'TR.TotalDebtActValue',
                                 ],
                                 parameters={'SDate': start_date, 'EDate': end_date},
                                )
-cs_total_debt = cs_total_debt.set_index("Date").drop(columns=["Instrument"])
-cs_total_debt.index = pd.to_datetime(cs_total_debt.index).tz_localize(None)
+# cs_total_debt['Date'] = pd.to_datetime(cs_total_debt['Date']).dt.date
+cs_total_debt_actual = cs_total_debt_actual.set_index("Date").drop(columns=["Instrument"])
+cs_total_debt_actual.index = pd.to_datetime(cs_total_debt_actual.index).tz_localize(None)
 
 print(err)
-print(cs_total_debt)
-cs_total_debt.plot()
+print(cs_total_debt_actual)
+cs_total_debt_actual.plot()
 plt.show()
-cs_total_debt.to_excel(f"{DATA_DOLDER}/cs_total_debt.xlsx")
+cs_total_debt_actual.to_excel(f"{DATA_DOLDER}/cs_total_debt_actual.xlsx")
 
 
 

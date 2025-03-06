@@ -31,9 +31,10 @@ cs_close = ek.get_timeseries(ticker_ric,
                             start_date=start_date, 
                             end_date=end_date, 
                             interval='daily')
+
 cs_close = cs_close[["CLOSE"]].rename(columns={"CLOSE": "Close"})
-print(cs_close)
 cs_close.to_excel(f"{DATA_DOLDER}/cs_close.xlsx")
+print(cs_close)
 cs_close.plot()
 plt.show()
 print("==========================================================\n")

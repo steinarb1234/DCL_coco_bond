@@ -29,9 +29,11 @@ cs_market_cap, err = ek.get_data(ticker_ric,
                             'TR.CompanyMarketCapitalization.date',
                             'TR.CompanyMarketCapitalization',
                         ], 
-                        parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'},
+                        parameters={'SDate': start_date, 'EDate': end_date},
                         )
 cs_market_cap = cs_market_cap.set_index("Date").drop(columns=["Instrument"])
+cs_market_cap.index = pd.to_datetime(cs_market_cap.index).tz_localize(None)
+
 print(err)
 print(cs_market_cap)
 cs_market_cap.plot(title="DataFrame Plot")

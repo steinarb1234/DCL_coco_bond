@@ -30,9 +30,11 @@ cs_total_assets, err = ek.get_data(ticker_ric,
                                     'TR.TotalAssets.date',
                                     'TR.TotalAssets',
                                 ], 
-                               parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'},
+                               parameters={'SDate': start_date, 'EDate': end_date},
                                )
 cs_total_assets = cs_total_assets.set_index("Date").drop(columns=["Instrument"])
+cs_total_assets.index = pd.to_datetime(cs_total_assets.index).tz_localize(None)
+
 print(err)
 print(cs_total_assets)
 cs_total_assets.to_excel(f"{DATA_DOLDER}/cs_total_assets.xlsx")
