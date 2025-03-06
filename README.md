@@ -2,7 +2,8 @@
 
 The aim of the simulations is to use data to simulate DCL CoCo bonds and analyse wheter they could have prevented financial instituitions from collapsing.
 
-![Stock Data](./images/stock_data.png)
+<!-- ![Stock Data](<./images/Close.png>) -->
+![Stock Data](<./images/results.png>)
 
 
 
