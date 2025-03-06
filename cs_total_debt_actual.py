@@ -32,7 +32,6 @@ cs_total_debt_actual, err = ek.get_data(ticker_ric,
                                 ],
                                 parameters={'SDate': start_date, 'EDate': end_date},
                                )
-# cs_total_debt['Date'] = pd.to_datetime(cs_total_debt['Date']).dt.date
 cs_total_debt_actual = cs_total_debt_actual.set_index("Date").drop(columns=["Instrument"])
 cs_total_debt_actual.index = pd.to_datetime(cs_total_debt_actual.index).tz_localize(None)
 
