@@ -21,7 +21,7 @@ cfg.read('eikon.config')
 ek.set_app_key(cfg['eikon']['app_key'])
 
 ticker_ric = "CSGN.S^F23"
-start_date = '2018-01-01'
+start_date = '2017-01-01'
 end_date = '2025-01-01'
 
 cs_shares_outstanding, err = ek.get_data(ticker_ric, 
