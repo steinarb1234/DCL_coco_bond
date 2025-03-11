@@ -36,8 +36,13 @@ data_types = [
     # 'TR.TotalLongTermDebt',
 ]
 
-ticker_ric = "CSGN.S^F23"
-start_date = '2017-01-01'
+# ticker_ric = "CSGN.S^F23" # Credit Suisse
+# ticker_ric = "DBKGn.DE"   # Deutsche Bank
+# ticker_ric = "LEHMQ.PK^C12"   # Lehman Brothers
+ticker_ric = "SIVBQ.PK^K24"    # Silicon Valley Bank
+
+
+start_date = '2015-01-01'
 end_date = '2025-01-01'
 
 for data_type in data_types:

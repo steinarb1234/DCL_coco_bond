@@ -36,10 +36,14 @@ ek.set_app_key(cfg['eikon']['app_key'])
 print("========================")
 
 print(ek.get_symbology("CSGN", to_symbol_type="RIC"))
+print(ek.get_symbology("DBKGn.DE", to_symbol_type="RIC"))
+print(ek.get_symbology("LEHNQ.PK", to_symbol_type="RIC"))
+print(ek.get_symbology("SVBQ", to_symbol_type="RIC"))
 print("========================")
 
 
 print("========================")
+ric_search = ek.get_symbology('CH0012138530', from_symbol_type='ISIN', to_symbol_type='RIC')
 ric_search = ek.get_symbology('CH0012138530', from_symbol_type='ISIN', to_symbol_type='RIC')
 print(ric_search)
 print("========================")
