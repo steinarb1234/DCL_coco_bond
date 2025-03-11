@@ -7,6 +7,10 @@ import warnings
 
 # Ignore eikon deprication warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
+# Set eikon api key from config file
+cfg = cp.ConfigParser()
+cfg.read('eikon.config')
+ek.set_app_key(cfg['eikon']['app_key'])
 DATA_DOLDER = "data"
 
 def get_data(ticker_ric, start_date, end_date, data_type):
@@ -20,12 +24,6 @@ def get_data(ticker_ric, start_date, end_date, data_type):
     df = df.set_index("Date").drop(columns=["Instrument"])
     df.index = pd.to_datetime(df.index).tz_localize(None)
     return df, err
-
-
-# Set eikon api key from config file
-cfg = cp.ConfigParser()
-cfg.read('eikon.config')
-ek.set_app_key(cfg['eikon']['app_key'])
 
 data_types = [
     'TR.TotalDebtOutstanding', # Total debt outstanding
@@ -41,13 +39,27 @@ data_types = [
 ticker_ric = "CSGN.S^F23"
 start_date = '2017-01-01'
 end_date = '2025-01-01'
+
 for data_type in data_types:
+    print(f"Getting data for {data_type}")
     data, err = get_data(ticker_ric, start_date, end_date, data_type)
+    data.to_excel(f"{DATA_DOLDER}/{ticker_ric}/{data_type}.xlsx")
     print(err)
     print(data)
-    
+    print()
     # data.plot()
     # plt.show()
 
-    data.to_excel(f"{DATA_DOLDER}/{ticker_ric}/{data_type}.xlsx")
+# Close price timeseries is a special case (uses get_timeseries instead of get_data)
+close = ek.get_timeseries(ticker_ric, 
+                            fields="Close",
+                            start_date=start_date, 
+                            end_date=end_date, 
+                            interval='daily')
+close = close[["CLOSE"]].rename(columns={"CLOSE": "Close"})
+close.to_excel(f"{DATA_DOLDER}/{ticker_ric}/Close.xlsx")
+print(close)
+# close.plot()
+# plt.show()
+
 

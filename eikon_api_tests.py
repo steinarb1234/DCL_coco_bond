@@ -73,7 +73,7 @@ cs_total_assets, err = ek.get_data(ticker_ric,
                                )
 print(err)
 print(cs_total_assets)
-cs_total_assets.to_excel(f"{DATA_DOLDER}/cs_total_assets.xlsx")
+# cs_total_assets.to_excel(f"{DATA_DOLDER}/cs_total_assets.xlsx")
 
 # cs_balance_sheet, err = ek.get_data(ticker_ric, 
 #                                [
@@ -129,7 +129,7 @@ print(err)
 print(cs_dcl_data)
 # cs_dcl_data.plot(title="DataFrame Plot")
 # plt.show()
-cs_dcl_data.to_excel(f"{DATA_DOLDER}/cs_dcl_data.xlsx")
+# cs_dcl_data.to_excel(f"{DATA_DOLDER}/cs_dcl_data.xlsx")
 print("==========================================================\n")
 
 
@@ -148,7 +148,7 @@ print(err)
 print(cs_shares_outstanding)
 # cs_shares_outstanding.plot(title="DataFrame Plot")
 # plt.show()
-cs_shares_outstanding.to_excel(f"{DATA_DOLDER}/cs_shares_outstanding.xlsx")
+# cs_shares_outstanding.to_excel(f"{DATA_DOLDER}/cs_shares_outstanding.xlsx")
 print("==========================================================\n")
 
 print("=================== Market cap =============================")
@@ -164,7 +164,7 @@ print(err)
 print(cs_market_cap)
 # cs_market_cap.plot(title="DataFrame Plot")
 # plt.show()
-cs_market_cap.to_excel(f"{DATA_DOLDER}/cs_market_cap.xlsx")
+# cs_market_cap.to_excel(f"{DATA_DOLDER}/cs_market_cap.xlsx")
 print("==========================================================\n")
 
 
@@ -183,9 +183,9 @@ def get_data(ticker_ric, tr_reuters_name, save_name):
 
     print(err)
     print(data)
-    data.plot(title="DataFrame Plot")
-    plt.show()
-    data.to_excel(f"{DATA_DOLDER}/{save_name}.xlsx")
+    # data.plot(title="DataFrame Plot")
+    # plt.show()
+    # data.to_excel(f"{DATA_DOLDER}/{save_name}.xlsx")
     
 
 
@@ -196,7 +196,7 @@ cs_timeseries = ek.get_timeseries(ticker_ric,
                             end_date=end_date, 
                             interval='daily')
 print(cs_timeseries)
-cs_timeseries.to_excel(f"{DATA_DOLDER}/cs_timeseries.xlsx")
+# cs_timeseries.to_excel(f"{DATA_DOLDER}/cs_timeseries.xlsx")
 print("==========================================================\n")
 
 
