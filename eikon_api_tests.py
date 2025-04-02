@@ -34,7 +34,7 @@ ek.set_app_key(cfg['eikon']['app_key'])
 # )
 # print(df)
 print("========================")
-
+# These can also be found using the Refinitiv Eikon Data Item Browser (DIB) 
 print(ek.get_symbology("CSGN", to_symbol_type="RIC"))
 print(ek.get_symbology("DBKGn.DE", to_symbol_type="RIC"))
 print(ek.get_symbology("LEHNQ.PK", to_symbol_type="RIC"))
@@ -62,21 +62,21 @@ print("======================= TR Field =========================")
 # ek.TR_Field()
 
 
-print("==========================================================\n")
+# print("==========================================================\n")
 
-print("====================== Balance Sheet =====================")
+# print("====================== Balance Sheet =====================")
 
-# Total assets
+# # Total assets
 
-cs_total_assets, err = ek.get_data(ticker_ric, 
-                               [
-                                    'TR.TotalAssets.date',
-                                    'TR.TotalAssets',
-                                ], 
-                               parameters={'SDate': start_date, 'EDate': end_date}
-                               )
-print(err)
-print(cs_total_assets)
+# cs_total_assets, err = ek.get_data(ticker_ric, 
+#                                [
+#                                     'TR.TotalAssets.date',
+#                                     'TR.TotalAssets',
+#                                 ], 
+#                                parameters={'SDate': start_date, 'EDate': end_date}
+#                                )
+# print(err)
+# print(cs_total_assets)
 # cs_total_assets.to_excel(f"{DATA_DOLDER}/cs_total_assets.xlsx")
 
 # cs_balance_sheet, err = ek.get_data(ticker_ric, 
@@ -94,7 +94,7 @@ print(cs_total_assets)
 # cs_balance_sheet.to_excel(f"{DATA_DOLDER}/cs_balance_sheet.xlsx")
 
 
-print("==========================================================\n")
+# print("==========================================================\n")
 
 
 # print("====================== Credit Spread =====================")
@@ -105,103 +105,103 @@ print("==========================================================\n")
 # cds_spread.to_excel(f"{DATA_DOLDER}/cds_spread.xlsx")
 # print("==========================================================\n")
 
-print("=================== DCL Data =============================")
-cs_dcl_data, err = ek.get_data(ticker_ric, 
-                        [
-                            # 'TR.NumberofSharesOutstandingActual.date',
-                            # 'TR.NumberofSharesOutstandingActual',
-                            'TR.CompanyMarketCap.Date',
-                            'TR.CompanyMarketCap',
-                            'TR.CompanyMarketCap.Currency',
-                            'TR.F.ComShrOutsTot',
-                            'TR.TtlCmnSharesOut',
-                            'TR.F.ShrUsedToCalcBasicEPSIssue',
-                            'TR.F.ShrUsedToCalcDilEPSTot',
-                            'TR.F.ComShrOutstTotPoPAvg',
+# print("=================== DCL Data =============================")
+# cs_dcl_data, err = ek.get_data(ticker_ric, 
+#                         [
+#                             # 'TR.NumberofSharesOutstandingActual.date',
+#                             # 'TR.NumberofSharesOutstandingActual',
+#                             'TR.CompanyMarketCap.Date',
+#                             'TR.CompanyMarketCap',
+#                             'TR.CompanyMarketCap.Currency',
+#                             'TR.F.ComShrOutsTot',
+#                             'TR.TtlCmnSharesOut',
+#                             'TR.F.ShrUsedToCalcBasicEPSIssue',
+#                             'TR.F.ShrUsedToCalcDilEPSTot',
+#                             'TR.F.ComShrOutstTotPoPAvg',
 
-                            # 'TR.CurrTtlLatestSharesOut.date'
-                            # 'TR.CurrTtlLatestSharesOut'
-                            # 'TR.MARKETCAPITALIZATION', 
-                            # 'TR.TotalDebt', 
-                            # 'TR.ShareholdersEquity', 
-                            # 'TR.Volatility30D',
-                            # 'TR.PCTotDebtToToEquPct'
-                        ], 
-                        parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
-                        )
-print(err)
-print(cs_dcl_data)
-# cs_dcl_data.plot(title="DataFrame Plot")
-# plt.show()
-# cs_dcl_data.to_excel(f"{DATA_DOLDER}/cs_dcl_data.xlsx")
-print("==========================================================\n")
-
-
-print("=================== Shares outstanding =============================")
-cs_shares_outstanding, err = ek.get_data(ticker_ric, 
-                        [
-                            # 'TR.NumberofSharesOutstandingActual.date',
-                            # 'TR.NumberofSharesOutstandingActual',
-                            'TR.F.ComShrOutsTot.date',
-                            'TR.F.ComShrOutsTot',
-                            # 'TR.TtlCmnSharesOut',
-                        ], 
-                        parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
-                        )
-print(err)
-print(cs_shares_outstanding)
-# cs_shares_outstanding.plot(title="DataFrame Plot")
-# plt.show()
-# cs_shares_outstanding.to_excel(f"{DATA_DOLDER}/cs_shares_outstanding.xlsx")
-print("==========================================================\n")
-
-print("=================== Market cap =============================")
-cs_market_cap, err = ek.get_data(ticker_ric, 
-                        [
-                            'TR.CompanyMarketCap.Date',
-                            'TR.CompanyMarketCap',
-                            'TR.CompanyMarketCap.Currency',
-                        ], 
-                        parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
-                        )
-print(err)
-print(cs_market_cap)
-# cs_market_cap.plot(title="DataFrame Plot")
-# plt.show()
-# cs_market_cap.to_excel(f"{DATA_DOLDER}/cs_market_cap.xlsx")
-print("==========================================================\n")
+#                             # 'TR.CurrTtlLatestSharesOut.date'
+#                             # 'TR.CurrTtlLatestSharesOut'
+#                             # 'TR.MARKETCAPITALIZATION', 
+#                             # 'TR.TotalDebt', 
+#                             # 'TR.ShareholdersEquity', 
+#                             # 'TR.Volatility30D',
+#                             # 'TR.PCTotDebtToToEquPct'
+#                         ], 
+#                         parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
+#                         )
+# print(err)
+# print(cs_dcl_data)
+# # cs_dcl_data.plot(title="DataFrame Plot")
+# # plt.show()
+# # cs_dcl_data.to_excel(f"{DATA_DOLDER}/cs_dcl_data.xlsx")
+# print("==========================================================\n")
 
 
+# print("=================== Shares outstanding =============================")
+# cs_shares_outstanding, err = ek.get_data(ticker_ric, 
+#                         [
+#                             # 'TR.NumberofSharesOutstandingActual.date',
+#                             # 'TR.NumberofSharesOutstandingActual',
+#                             'TR.F.ComShrOutsTot.date',
+#                             'TR.F.ComShrOutsTot',
+#                             # 'TR.TtlCmnSharesOut',
+#                         ], 
+#                         parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
+#                         )
+# print(err)
+# print(cs_shares_outstanding)
+# # cs_shares_outstanding.plot(title="DataFrame Plot")
+# # plt.show()
+# # cs_shares_outstanding.to_excel(f"{DATA_DOLDER}/cs_shares_outstanding.xlsx")
+# print("==========================================================\n")
+
+# print("=================== Market cap =============================")
+# cs_market_cap, err = ek.get_data(ticker_ric, 
+#                         [
+#                             'TR.CompanyMarketCap.Date',
+#                             'TR.CompanyMarketCap',
+#                             'TR.CompanyMarketCap.Currency',
+#                         ], 
+#                         parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
+#                         )
+# print(err)
+# print(cs_market_cap)
+# # cs_market_cap.plot(title="DataFrame Plot")
+# # plt.show()
+# # cs_market_cap.to_excel(f"{DATA_DOLDER}/cs_market_cap.xlsx")
+# print("==========================================================\n")
 
 
-def get_data(ticker_ric, tr_reuters_name, save_name):
-    data, err = ek.get_data(ticker_ric, 
-                            [
-                                f'{tr_reuters_name}.Date',
-                                f'{tr_reuters_name}',
-                                # f'{tr_reuters_name}.Currency',
-                            ], 
-                            parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
-                            )
-    data = data.set_index("Date").drop(columns=["Instrument"])
 
-    print(err)
-    print(data)
-    # data.plot(title="DataFrame Plot")
-    # plt.show()
-    # data.to_excel(f"{DATA_DOLDER}/{save_name}.xlsx")
+
+# def get_data(ticker_ric, tr_reuters_name, save_name):
+#     data, err = ek.get_data(ticker_ric, 
+#                             [
+#                                 f'{tr_reuters_name}.Date',
+#                                 f'{tr_reuters_name}',
+#                                 # f'{tr_reuters_name}.Currency',
+#                             ], 
+#                             parameters={'SDate': start_date, 'EDate': end_date, 'FRQ': 'D'}
+#                             )
+#     data = data.set_index("Date").drop(columns=["Instrument"])
+
+#     print(err)
+#     print(data)
+#     # data.plot(title="DataFrame Plot")
+#     # plt.show()
+#     # data.to_excel(f"{DATA_DOLDER}/{save_name}.xlsx")
     
 
 
 
-print("=================== Timeseries ===========================")
-cs_timeseries = ek.get_timeseries(ticker_ric, 
-                            start_date=start_date, 
-                            end_date=end_date, 
-                            interval='daily')
-print(cs_timeseries)
-# cs_timeseries.to_excel(f"{DATA_DOLDER}/cs_timeseries.xlsx")
-print("==========================================================\n")
+# print("=================== Timeseries ===========================")
+# cs_timeseries = ek.get_timeseries(ticker_ric, 
+#                             start_date=start_date, 
+#                             end_date=end_date, 
+#                             interval='daily')
+# print(cs_timeseries)
+# # cs_timeseries.to_excel(f"{DATA_DOLDER}/cs_timeseries.xlsx")
+# print("==========================================================\n")
 
 
 
