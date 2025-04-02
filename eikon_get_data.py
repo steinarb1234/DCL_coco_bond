@@ -28,7 +28,6 @@ def get_data(ticker_ric, start_date, end_date, data_type):
 
 data_types = [
     'TR.TotalDebtOutstanding', # Total debt outstanding
-    # 'TR.F.LTDebtPctofTotCap',  # Long term debt divided by total capital
     'TR.CompanyMarketCapitalization', # Market capitalization
     'TR.IssueSharesOutstanding', # Real time shares outstanding
     'TR.TotalAssets', # Total Assets
@@ -54,6 +53,13 @@ tickers = {
         "start_date": "2015-01-01",
         "end_date": "2025-01-01",
     },
+    # TODO: Add Goldman Sachs
+    # TODO: Add Morgan Stanley
+    # TODO: Add JP Morgan Chase
+    # TODO: Add UBS
+    # TODO: Add Arion Bank
+    # TODO: Add Landsbankinn
+    # TODO: Add Íslandsbanki
 }
 
 for ticker_ric, dates in tickers.items():
